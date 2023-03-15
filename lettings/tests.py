@@ -23,12 +23,18 @@ class LettingsTest(TestCase):
         response = self.client.get(
             reverse("lettings:letting", kwargs={"letting_id": self.letting.id})
         )
+        number = self.letting.address.number
+        street = self.letting.address.street
+        city = self.letting.address.city
+        state = self.letting.address.state
+        zip_code = self.letting.address.zip_code
+        country_iso_code = self.letting.address.country_iso_code
         response_content = response.content.decode()
         title = f"<title>{self.letting}</title>"
         h1 = f"<h1>{self.letting}</h1>"
-        address_number_and_street = f"<p>{self.letting.address.number} {self.letting.address.street}</p>"
-        address_city_and_state_and_zipcode = f"<p>{self.letting.address.city}, {self.letting.address.state} {self.letting.address.zip_code}</p>"
-        address_country_iso_code = f"<p>{self.letting.address.country_iso_code}</p>"
+        address_number_and_street = f"<p>{number} {street}</p>"
+        address_city_and_state_and_zipcode = f"<p>{city}, {state} {zip_code}</p>"
+        address_country_iso_code = f"<p>{country_iso_code}</p>"
         assert response.status_code == 200
         assert title in response_content
         assert h1 in response_content
