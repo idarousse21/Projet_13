@@ -6,7 +6,7 @@ from factories import UserFactory, ProfileFactory
 class TestProfile(TestCase):
     def setUp(self):
         self.client = Client()
-        self.users = UserFactory.create_batch(1)
+        self.users = UserFactory()
         self.profile = ProfileFactory()
 
     def test_profile_index(self):
@@ -24,6 +24,7 @@ class TestProfile(TestCase):
             reverse("profiles:profile", kwargs={"username": self.profile})
         )
         response_content = response.content.decode()
+        print(self.profile.id)
         title = f"<title>{self.profile}</title>"
         h1 = f"<h1>{self.profile}</h1>"
         first_name = f"<p>First name: {self.profile.user.first_name}</p>"

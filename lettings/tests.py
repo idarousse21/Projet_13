@@ -4,10 +4,11 @@ from factories import AddressFactory, LettingFactory
 
 
 class LettingsTest(TestCase):
-    def setUp(self):
-        self.client = Client()
-        self.address = AddressFactory.create_batch(1)
-        self.letting = LettingFactory()
+    @classmethod
+    def setUpTestData(cls):
+        cls.client = Client()
+        cls.address = AddressFactory()
+        cls.letting = LettingFactory()
 
     def test_letting_index(self):
         title_name = "Lettings"
