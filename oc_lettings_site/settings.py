@@ -20,7 +20,7 @@ ALLOWED_HOSTS = [
     "0.0.0.0",
     "127.0.0.1",
     "localhost",
-    os.getenv("HEROKU_APP_NAME") + ".herokuapp.com",
+    f"{os.getenv('HEROKU_APP_NAME')}.herokuapp.com",
 ]
 
 

@@ -1,59 +1,71 @@
 version: 2.1
 
 orbs:
-  python: circleci/python@2.1.1
+  python: circleci/python@2.0.3
   docker: circleci/docker@2.2.0
   heroku: circleci/heroku@2.0.0
 
 jobs:
   tests_and_linting:
     docker:
-      -image: cimg/python:3.10.6
-    steps:
-      - checkout
-      - python/install-packages:
-          pkg-manager: pip
-      - run:
-        name: Run linting
-        command: flake8
-      - run:
-        name: Run tests
-        command: pytest
-  
-  build_and_push_docker:
-    executor: docker/docker
-    steps:
-      - setup_remote_docker
-      - checkout
-      - docker/check
-      - docker/build:
-          image: ${DOCKER_USERNAME}/lettings
-      - docker/push:
-          image: ${DOCKER_USERNAME}/lettings
-  
-  deploy_to_heroku:
-    docker:
       - image: cimg/python:3.10.6
     steps:
       - checkout
-      - heroku/install
-      - heroku/deploy-via-git:
-          branch: master
+      - run:
+          name: Create virtual environment
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+      - python/install-packages:
+          pkg-manager: pip
+          pip-dependency-file: requirements.txt
+      - run:
+          name: Run linting
+          command: flake8
+      - run:
+          name: Run tests
+          command: pytest
 
-workflow:
+  build_and_push_docker:
+    executor: docker/docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: docker build -t lettings .
+      - run:
+          name: Docker login
+          command: docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+      - run:
+          name: Tag Docker image
+          command: docker tag lettings:latest ${DOCKER_USERNAME}/lettings:latest
+      - run:
+          name: Push Docker image to registry
+          command: docker push ${DOCKER_USERNAME}/lettings:latest
+
+  deploy_to_heroku:
+    executor: heroku/default
+    steps:
+      - checkout
+      - run:
+          name: Deploy Heroku
+          command: |
+            git push https://heroku:${API_KEY_HEROKU}@git.heroku.com/lettings.git master
+
+workflows:
   deploy_lettings_site:
     jobs:
       - tests_and_linting
       - build_and_push_docker:
-        requires:
-          - tests_and_linting
-        filters:
-          branches:
-            only: master
+          requires:
+            - tests_and_linting
+          filters:
+            branches:
+              only: master
       - deploy_to_heroku:
-        requires:
-          - build_and_push_docker
-        filters:
-          branches:
-            only: master
-
+          requires:
+            - build_and_push_docker
+          filters:
+            branches:
+              only: master
