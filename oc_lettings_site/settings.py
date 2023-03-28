@@ -23,7 +23,6 @@ ALLOWED_HOSTS = [
     f"{os.getenv('HEROKU_APP_NAME')}.herokuapp.com",
 ]
 
-
 # Application definition
 
 INSTALLED_APPS = [
