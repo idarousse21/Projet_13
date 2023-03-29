@@ -6,6 +6,11 @@ from sentry_sdk.integrations.django import DjangoIntegration
 
 load_dotenv()
 
+
+def traces_sampler(sampling_context):
+    return 1 / 0
+
+
 sentry_sdk.init(
     dsn=os.getenv("SENTRY_DSN"),
     integrations=[
@@ -16,6 +21,7 @@ sentry_sdk.init(
         ),
     ],
     traces_sample_rate=1.0,
+    traces_sampler=traces_sampler,
     send_default_pii=True,
 )
 
