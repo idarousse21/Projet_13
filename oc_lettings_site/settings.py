@@ -9,7 +9,11 @@ load_dotenv()
 sentry_sdk.init(
     dsn=os.getenv("SENTRY_DSN"),
     integrations=[
-        DjangoIntegration(),
+        DjangoIntegration(
+            transaction_style="endpoint",
+            middleware_spans=True,
+            signals_spans=False,
+        ),
     ],
     traces_sample_rate=1.0,
     send_default_pii=True,
