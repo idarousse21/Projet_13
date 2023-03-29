@@ -8,7 +8,7 @@ load_dotenv()
 
 
 def traces_sampler(sampling_context):
-    return 1 / 0
+    return True
 
 
 sentry_sdk.init(
