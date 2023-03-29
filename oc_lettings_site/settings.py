@@ -10,7 +10,7 @@ sentry_sdk.init(
     dsn=os.getenv("SENTRY_DSN"),
     integrations=[
         DjangoIntegration(
-            transaction_style="endpoint",
+            transaction_style="function_name",
             middleware_spans=True,
             signals_spans=False,
         ),
