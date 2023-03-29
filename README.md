@@ -75,3 +75,24 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
+
+## Déploiement
+Le déployment de l'application se fera en créant une image Docker, cette image est ensuite utilisée pour créer des conteneurs Docker, qui est une instance exécutant l'application. Nous effectuerons par la suite un deployment sur la plateforme Heroku et enfin nous utilisera le service d'intégration continue de CircleCI pour créer un pipeline qui automatisera le processus de test, de conteneurisation et de deployment.
+
+### Prérequis
+
+#### Installation et conteneurisation de Docker
+
+- Installer <a href="https://www.docker.com/">Docker</a>
+- Créer un compte Docker et connectez-vous
+
+##### Construire l'image Docker et le pousser dans le registre des conteneurs DockerHub en ouvrant votre invite de commande et en tapant ces commandes:
+  - docker login -u <username-docker>
+  - docker build -t lettings .
+  - docker docker tag lettings:latest <username-docker>/lettings:latest
+  - docker push <username-docker>/lettings:latest
+
+##### Vous pouvez aussir récuperer l'image Docker:
+  - docker pull <username-docker>/lettings:latest
+
+### 
