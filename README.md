@@ -79,16 +79,16 @@ Le déployment de l'application se fera en créant une image Docker, cette image
   - Créer un compte Docker et connectez-vous
 
 ##### Construire l'image Docker et le pousser dans le registre des conteneurs DockerHub en ouvrant votre invite de commande et en tapant ces commandes:
-  - docker login -u <username-docker>
+  - docker login -u "username-docker"
   - docker build -t lettings .
-  - docker docker tag lettings:latest <username-docker>/lettings:latest
-  - docker push <username-docker>/lettings:latest
+  - docker docker tag lettings:latest "username-docker"/lettings:latest
+  - docker push "username-docker"/lettings:latest
 
 ##### Vous pouvez aussi récuperer l'image Docker:
-  - docker pull <username-docker>/lettings:latest
+  - docker pull "username-docker"/lettings:latest
 
 ##### Lancer le site localement en utilisant l'image Docker
-  - docker run -it -p 8000:8000 <username-docker>/lettings
+  - docker run -it -p 8000:8000 "username-docker"/lettings
   - Acceder ensuite a la page sur `http://localhost:8000`
 
 #### Configuration et deployement sur Heroku
