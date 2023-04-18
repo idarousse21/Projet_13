@@ -8,7 +8,8 @@ load_dotenv()
 
 
 sentry_sdk.init(
-    dsn="https://51ce575395984d498bf23eafdab3d7c0@o4504917084536832.ingest.sentry.io/4505037065682944",
+    
+    dsn=os.getenv("SENTRY_DSN"),
     integrations=[
         DjangoIntegration(
             transaction_style="url",
@@ -61,7 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = "oc_lettings_site.urls"
