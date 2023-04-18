@@ -10,14 +10,10 @@ load_dotenv()
 sentry_sdk.init(
     dsn=os.getenv("SENTRY_DSN"),
     integrations=[
-        DjangoIntegration(
-            transaction_style="url",
-            middleware_spans=True,
-            signals_spans=False,
-        ),
+        DjangoIntegration(),
     ],
     traces_sample_rate=1.0,
-    send_default_pii=True,
+    send_default_pii=True
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
